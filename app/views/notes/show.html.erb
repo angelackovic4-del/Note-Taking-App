@@ -1,0 +1,14 @@
+<% if notice %>
+  <p class="mb-6 rounded-lg bg-emerald-500/10 px-4 py-3 text-sm text-emerald-300"><%= notice %></p>
+<% end %>
+
+<article class="mx-auto max-w-3xl rounded-xl border border-slate-800 bg-slate-900 p-6 sm:p-8">
+  <%= render @note %>
+</article>
+
+<div class="mx-auto mt-6 flex max-w-3xl flex-wrap items-center gap-5 text-sm font-semibold">
+  <%= link_to "Edit this note", edit_note_path(@note), class: "text-indigo-400 hover:text-indigo-300" %>
+  <%= link_to "Back to notes", notes_path, class: "text-slate-400 hover:text-white" %>
+
+  <%= button_to "Destroy this note", @note, method: :delete, class: "text-red-400 hover:text-red-300", form_class: "ml-auto" %>
+</div>

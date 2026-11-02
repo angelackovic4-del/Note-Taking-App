@@ -1,0 +1,27 @@
+<%= form_with(model: note) do |form| %>
+  <% if note.errors.any? %>
+    <div class="mb-6 rounded-lg border border-red-500/30 bg-red-500/10 p-4 text-red-300">
+      <h2 class="font-semibold"><%= pluralize(note.errors.count, "error") %> prohibited this note from being saved:</h2>
+
+      <ul class="mt-2 list-inside list-disc text-sm">
+        <% note.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="space-y-2">
+    <%= form.label :title, class: "block text-sm font-medium text-slate-300" %>
+    <%= form.text_field :title, class: "block w-full rounded-lg border border-slate-700 bg-slate-900 px-4 py-3 text-white outline-none transition placeholder:text-slate-500 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20" %>
+  </div>
+
+  <div class="mt-6 space-y-2">
+    <%= form.label :content, class: "block text-sm font-medium text-slate-300" %>
+    <%= form.textarea :content, rows: 8, class: "block w-full rounded-lg border border-slate-700 bg-slate-900 px-4 py-3 text-white outline-none transition placeholder:text-slate-500 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20" %>
+  </div>
+
+  <div class="mt-6">
+    <%= form.submit class: "rounded-lg bg-indigo-500 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/20 transition hover:bg-indigo-400" %>
+  </div>
+<% end %>

@@ -1,0 +1,15 @@
+<% content_for :title, "Editing note" %>
+
+<div class="mx-auto max-w-2xl">
+  <p class="mb-2 text-sm font-medium uppercase tracking-widest text-indigo-400">Update</p>
+  <h1 class="text-4xl font-bold tracking-tight text-white">Editing note</h1>
+
+  <div class="mt-8 rounded-xl border border-slate-800 bg-slate-900 p-6 sm:p-8">
+    <%= render "form", note: @note %>
+  </div>
+
+  <div class="mt-6 flex gap-5 text-sm font-semibold">
+    <%= link_to "Show this note", @note, class: "text-indigo-400 hover:text-indigo-300" %>
+    <%= link_to "Back to notes", notes_path, class: "text-slate-400 hover:text-white" %>
+  </div>
+</div>

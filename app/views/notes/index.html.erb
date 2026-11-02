@@ -1,0 +1,28 @@
+<% if notice %>
+  <p class="mb-6 rounded-lg bg-emerald-500/10 px-4 py-3 text-sm text-emerald-300"><%= notice %></p>
+<% end %>
+
+<% content_for :title, "Notes" %>
+
+<header class="mb-10 flex items-end justify-between gap-4">
+  <div>
+    <p class="mb-2 text-sm font-medium uppercase tracking-widest text-indigo-400">Your workspace</p>
+    <h1 class="text-4xl font-bold tracking-tight text-white">Notes</h1>
+  </div>
+  <%= link_to "New note", new_note_path, class: "rounded-lg bg-indigo-500 px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-indigo-500/20 transition hover:bg-indigo-400" %>
+</header>
+
+<div id="notes" class="grid gap-4 sm:grid-cols-2">
+  <% @notes.each do |note| %>
+    <article class="rounded-xl border border-slate-800 bg-slate-900 p-6 transition hover:border-indigo-500/60">
+      <%= render note %>
+      <%= link_to "Read note", note, class: "mt-5 inline-block text-sm font-semibold text-indigo-400 hover:text-indigo-300" %>
+    </article>
+  <% end %>
+</div>
+
+<% if @notes.empty? %>
+  <div class="rounded-xl border border-dashed border-slate-700 px-6 py-12 text-center text-slate-400">
+    No notes yet. Create your first note to get started.
+  </div>
+<% end %>
