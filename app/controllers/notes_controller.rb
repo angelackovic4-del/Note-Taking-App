@@ -58,7 +58,13 @@ class NotesController < ApplicationController
     @note.destroy!
 
     respond_to do |format|
-      format.turbo_stream { render turbo_stream: turbo_stream.remove(dom_id(@note)) }
+      format.turbo_stream do
+        if request.headers["Turbo-Frame"].present?
+          render turbo_stream: turbo_stream.remove(@note)
+        else
+          redirect_to notes_path, status: :see_other
+        end
+      end
       format.html { redirect_to notes_path, notice: "Note was successfully destroyed.", status: :see_other }
       format.json { head :no_content }
     end

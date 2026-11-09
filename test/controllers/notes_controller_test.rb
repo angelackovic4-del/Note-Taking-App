@@ -8,6 +8,7 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
   test "should get index" do
     get notes_url
     assert_response :success
+    assert_select "a[data-turbo-frame='_top']", text: "Read note"
   end
 
   test "should get new" do
@@ -41,6 +42,23 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
   test "should destroy note" do
     assert_difference("Note.count", -1) do
       delete note_url(@note)
+    end
+
+    assert_redirected_to notes_url
+  end
+
+  test "should destroy note with turbo stream" do
+    assert_difference("Note.count", -1) do
+      delete note_url(@note), as: :turbo_stream, headers: { "Turbo-Frame" => "note_#{@note.id}" }
+    end
+
+    assert_response :success
+    assert_includes response.body, %(target="note_#{@note.id}")
+  end
+
+  test "should redirect after destroying note from show page" do
+    assert_difference("Note.count", -1) do
+      delete note_url(@note), as: :turbo_stream
     end
 
     assert_redirected_to notes_url
