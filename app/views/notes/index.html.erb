@@ -13,16 +13,24 @@
 </header>
 
 <div id="notes" class="grid gap-4 sm:grid-cols-2">
-  <% @notes.each do |note| %>
-    <article class="rounded-xl border border-slate-800 bg-slate-900 p-6 transition hover:border-indigo-500/60">
-      <%= render note %>
-      <%= link_to "Read note", note, class: "mt-5 inline-block text-sm font-semibold text-indigo-400 hover:text-indigo-300" %>
-    </article>
-  <% end %>
+  <%= render partial: "notes/note_card", collection: @notes, as: :note, cached: true %>
 </div>
 
 <% if @notes.empty? %>
   <div class="rounded-xl border border-dashed border-slate-700 px-6 py-12 text-center text-slate-400">
     No notes yet. Create your first note to get started.
   </div>
+<% end %>
+
+<% if @page > 1 || @has_next_page %>
+  <nav class="mt-8 flex items-center justify-between text-sm font-semibold" aria-label="Pagination">
+    <% if @page > 1 %>
+      <%= link_to "Newer notes", notes_path(page: @page - 1), class: "text-indigo-400 hover:text-indigo-300" %>
+    <% else %>
+      <span></span>
+    <% end %>
+    <% if @has_next_page %>
+      <%= link_to "Older notes", notes_path(page: @page + 1), class: "text-indigo-400 hover:text-indigo-300" %>
+    <% end %>
+  </nav>
 <% end %>

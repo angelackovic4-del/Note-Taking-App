@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_02_153219) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_09_121000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -19,5 +19,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_02_153219) do
     t.text "content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index "to_tsvector('english'::regconfig, (((COALESCE(title, ''::character varying))::text || ' '::text) || COALESCE(content, ''::text)))", name: "index_notes_on_full_text_search", using: :gin
+    t.index ["created_at"], name: "index_notes_on_created_at", order: :desc
   end
 end

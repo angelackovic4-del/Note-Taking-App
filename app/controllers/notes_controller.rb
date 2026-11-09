@@ -1,13 +1,19 @@
 class NotesController < ApplicationController
+  NOTES_PER_PAGE = 20
+
   before_action :set_note, only: %i[ show edit update destroy ]
 
   # GET /notes or /notes.json
   def index
-    @notes = Note.all
+    @page = [ params.fetch(:page, 1).to_i, 1 ].max
+    notes = Note.order(created_at: :desc).limit(NOTES_PER_PAGE + 1).offset((@page - 1) * NOTES_PER_PAGE)
+    @has_next_page = notes.length > NOTES_PER_PAGE
+    @notes = notes.first(NOTES_PER_PAGE)
   end
 
   # GET /notes/1 or /notes/1.json
   def show
+    fresh_when @note
   end
 
   # GET /notes/new
@@ -52,6 +58,7 @@ class NotesController < ApplicationController
     @note.destroy!
 
     respond_to do |format|
+      format.turbo_stream { render turbo_stream: turbo_stream.remove(dom_id(@note)) }
       format.html { redirect_to notes_path, notice: "Note was successfully destroyed.", status: :see_other }
       format.json { head :no_content }
     end
